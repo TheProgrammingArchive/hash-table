@@ -1,3 +1,3 @@
 # hash-table
 
-Your average hash table (not completed yet)
+hash table seperate chaining (not completed yet)
