@@ -91,6 +91,12 @@ class HashTable{
         this->hash_table = new std::list<Entry<T, E>>*[table_size]{nullptr};
     }
 
+    HashTable(const std::initializer_list<Entry<T, E>>& list) : HashTable(){
+        for (const Entry<T, E>& entry : list){
+            update(entry);
+        }
+    }
+
     ~HashTable(){
         for (int i = 0; i < table_size; i++){
             if (hash_table[i] != nullptr){
@@ -171,6 +177,15 @@ class HashTable{
             if (entry.key == key){
                 hash_table[index]->remove(entry);
 
+                int pos = 0;
+                for (int x = 0; x < keys.size(); x++){
+                    if (keys[x] == key){
+                        pos = x;
+                        break;
+                    }
+                }
+                keys.erase(keys.begin() + pos);
+
                 if (hash_table[index]->size() == 0){
                     hash_table[index] = nullptr;
                 }
@@ -182,16 +197,11 @@ class HashTable{
         return handle_not_found(default_, "Key not found");
     }
 
-    void test(){
-        for (int i = 0; i < table_size; i++){
-            if (hash_table[i] != nullptr){
-                if (hash_table[i]->size() != 0){
-                    for (const Entry<T, E>& entry : *hash_table[i]){
-                        std::cout << entry.key << " : " << entry.value << " ~ " << i << std::endl;
-                    }
-                }
-            }
+    const Entry<T, E>& pop_item(){
+        if (keys.empty()){
+            return handle_not_found("Empty Dictionary");
         }
+        
     }
 };
 
