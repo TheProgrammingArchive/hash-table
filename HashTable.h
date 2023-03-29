@@ -196,13 +196,6 @@ class HashTable{
             
         return handle_not_found(default_, "Key not found");
     }
-
-    const Entry<T, E>& pop_item(){
-        if (keys.empty()){
-            return handle_not_found("Empty Dictionary");
-        }
-        
-    }
 };
 
 #endif // HASHTABLE_H
