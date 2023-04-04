@@ -22,3 +22,15 @@ struct std::hash<Foo>{
 };
 
 ```
+
+<b> Usage Example: </b> <br>
+```
+HashTable<std::string, int> table = {{"A": 1}, {"B":3}};
+table.update({"C": 5});
+table.update({"A":0});
+table.remove("A");
+
+for (const std::string& key : table.get_keys()){
+    std::cout << key << " : " << table.get(key) << std::endl;
+}
+
