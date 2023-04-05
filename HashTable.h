@@ -53,7 +53,7 @@ class HashTable{
     }
 
     void resize_table(){
-        std::list<Entry<T, E>>** amogus = new std::list<Entry<T, E>>*[table_size * 2]{nullptr};
+        std::list<Entry<T, E>>** hash_table_new = new std::list<Entry<T, E>>*[table_size * 2]{nullptr};
         this->threshold = static_cast<int>(this->table_size * this->threshold * 2);
 
         for (int i = 0; i < table_size; i++){
@@ -61,10 +61,10 @@ class HashTable{
                 if (hash_table[i]->size() != 0){
                     for (Entry<T, E> entry : *hash_table[i]){
                         int index_new = hashObject(entry.key) % (table_size * 2);
-                        if (amogus[index_new] == nullptr){
-                            amogus[index_new] = new std::list<Entry<T, E>>;
+                        if (hash_table_new[index_new] == nullptr){
+                            hash_table_new[index_new] = new std::list<Entry<T, E>>;
                         }
-                        amogus[index_new]->push_back(entry);
+                        hash_table_new[index_new]->push_back(entry);
                     }
                 }
             }
@@ -78,7 +78,7 @@ class HashTable{
         }
         hash_table = nullptr;
 
-        hash_table = amogus;
+        hash_table = hash_table_new;
         this->table_size = table_size * 2;
         this->threshold = static_cast<int>(table_size * load_factor);
     }
@@ -121,7 +121,7 @@ class HashTable{
         std::list<Entry<T, E>>* list_ = hash_table[index];
 
         if (list_ == nullptr){
-            return handle_not_found(default_, "Key not found");
+            return handle_not_found(default_, "");
         }
 
         for (Entry<T, E>& entry : *list_){
@@ -130,7 +130,7 @@ class HashTable{
             } 
         }
         
-        return handle_not_found(default_, "Key not found");
+        return handle_not_found(default_, "KeyError");
     }
 
     void update(const Entry<T, E>& entry){
@@ -165,12 +165,12 @@ class HashTable{
 
     E& remove(const T& key, E* default_ = nullptr){
         if (curr_kv_pairs == 0){
-            return handle_not_found(default_, "remove invoked on empty hash table");
+            return handle_not_found(default_, "Remove invoked on empty hash table");
         }
 
         int index = hash_index(key);
         if (hash_table[index] == nullptr){
-            return handle_not_found(default_, "Key not found");
+            return handle_not_found(default_, "KeyError");
         }
 
         for (Entry<T, E>& entry : *hash_table[index]){
@@ -190,11 +190,26 @@ class HashTable{
                     hash_table[index] = nullptr;
                 }
                 
+                curr_kv_pairs = curr_kv_pairs - 1;
                 return entry.value;
             }
         }
             
-        return handle_not_found(default_, "Key not found");
+        return handle_not_found(default_, "Key Error");
+    }
+
+    Entry<T, E>& pop_item(){
+        if (curr_kv_pairs == 0){
+            throw std::out_of_range("Empty");
+        }
+
+        T rem_key = keys[keys.size() - 1];
+        int table_index = hash_index(rem_key);
+
+        E req = remove(rem_key);
+        Entry<T, E> *entry = new Entry<T, E>{rem_key, req};
+
+        return *entry;
     }
 };
 
