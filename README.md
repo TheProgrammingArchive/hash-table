@@ -23,7 +23,7 @@ struct std::hash<Foo>{
 
 ```
 
-<b> Usage Example: </b> <br>
+<b> Usage: </b> <br>
 ```
 HashTable<std::string, int> table = {{"A": 1}, {"B":3}};
 table.update({"C": 5});
