@@ -31,6 +31,6 @@ table.update({"A":0});
 table.remove("A");
 
 for (const std::string& key : table.get_keys()){
-    std::cout << key << " : " << table.get(key) << std::endl;
+    std::cout << key << " : " << table.get(key) << ", ";
 }
 
