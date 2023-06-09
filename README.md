@@ -1,5 +1,5 @@
 # hash-table
-### Hash Table using seperate chaining
+### Hash Table (seperate chaining)
 
 <b> Note </b>: <br>
 To use the table for custom class definitions you must inject your custom class into the std::hash definition, here's an example
