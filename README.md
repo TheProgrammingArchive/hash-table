@@ -16,7 +16,7 @@ class Foo{
 
 template <>
 struct std::hash<Foo>{
-    std::size_t operator()(const Foo& foo){
+    std::size_t operator()(const Foo& foo) const{
         return std::hash<std::string>{}(foo.bar);
     }
 };
